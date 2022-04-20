@@ -60,5 +60,5 @@ jobs:
           context: .
           file: Dockerfile_data_reader_api
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: mushroom/data_reader:latest
           labels: ${{ steps.meta.outputs.labels }}
