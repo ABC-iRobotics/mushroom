@@ -7,14 +7,14 @@ RUN apt-get update -y && \
     python3 -m pip install --upgrade pip
 
 
-COPY ./data_reader_api/requirements.txt /app/requirements.txt
+COPY ./requirements.txt /app/requirements.txt
 
 WORKDIR /app
 
 RUN pip3 install -r requirements.txt
 
-COPY ./data_reader_api /app/data_reader_api
+COPY . .
 
 ENTRYPOINT [ "python3" ]
 
-CMD [ "data_reader_api/app.py" ]
+CMD [ "./app.py" ]

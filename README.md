@@ -15,3 +15,8 @@ The following endpoints are defined for the XPS reader:
    - GET: get the next row as a json object
  - xps_reader/<string:filename>/page:
    - GET: get the next page as a json object
+
+### Build Docker imaage
+Go to folder data_reader_api
+Run command: docker build --tag data-reader-api:v1.0.0 data_reader_api
+Check the created image with: docker images

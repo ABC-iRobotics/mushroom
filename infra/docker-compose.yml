@@ -11,6 +11,11 @@ services:
       - database-data:/var/lib/postgresql/data/
     ports:
       - "54321:5432"
+      
+  data-reader-api:
+    image: data-reader-api:v1.0.0
+    ports:
+      - "8085:8080"
 
 volumes:
   database-data:
