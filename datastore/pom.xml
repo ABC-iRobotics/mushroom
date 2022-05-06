@@ -151,7 +151,7 @@
 								<image>
 									<name>hu.mushroom.datastore/${project.artifactId}:${project.version}</name>
 									<build>
-										<from>adoptopenjdk:15.0.2_7-jre-hotspot</from>
+										<from>docker.io/openjdk:17.0.1-slim</from>
 										<assembly>
 											<targetDir>/</targetDir>
 											<inline>
