@@ -25,17 +25,13 @@ def process_xps_data(rows):
     for row in rows:
         data_row = {}
         data = row[0]
-        header = row[1]
         data_row['date'] = data[0]
-        for i in range(len(header)):
-            data_row[header_formatter(header[i])] = data[i+1]
+        data_row['compostTemp'] = data[1]
+        data_row['roomTemp'] = data[2]
+        data_row['co2'] = data[3]
+        data_row['rh'] = data[4]
         document['rows'].append(data_row)
     return document
-    
-def header_formatter(header_name):
-    modified_header = header_name.lower()
-    modified_header = modified_header.replace(" ", "_")
-    return modified_header
 
 class XPSReadersReset(Resource):
     def put(self):
