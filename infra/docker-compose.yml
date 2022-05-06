@@ -14,8 +14,32 @@ services:
       
   data-reader-api:
     image: data-reader-api:v1.0.0
+    volumes:
+      - xps-data:/data
     ports:
-      - "8085:8080"
+      - "8085:5000"
+      
+  mushroom-datastore-application:
+    image: hu.mushroom.datastore/mushroom-datastore-application:0.0.1-SNAPSHOT
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://database/${DB_NAME}?ApplicationName=biofungi-datastore"
+      SPRING_DATASOURCE_TYPE: "org.apache.tomcat.jdbc.pool.DataSource"
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_TOMCAT_MIN_IDLE: 1
+      SPRING_DATASOURCE_TOMCAT_MAX_IDLE: 5
+      SPRING_DATASOURCE_TOMCAT_INITIAL_SIZE: 1
+      SPRING_DATASOURCE_DRIVERCLASSNAME: "org.postgresql.Driver"
+      SPRING_JPA_DATABASEPLATFORM: "org.hibernate.dialect.PostgreSQL95Dialect"
+      SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
+    ports:
+      - "8081:8080"
 
 volumes:
   database-data:
+  xps-data:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: 'h:/Mortoff/Biofungi/data'
