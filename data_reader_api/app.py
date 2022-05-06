@@ -19,6 +19,23 @@ def get_xps_reader(filename):
             xpsr = xps_reader
             break
     return xpsr
+    
+def process_xps_data(rows):
+    document = {'rows':[]}
+    for row in rows:
+        data_row = {}
+        data = row[0]
+        header = row[1]
+        data_row['date'] = data[0]
+        for i in range(len(header)):
+            data_row[header_formatter(header[i])] = data[i+1]
+        document['rows'].append(data_row)
+    return document
+    
+def header_formatter(header_name):
+    modified_header = header_name.lower()
+    modified_header = modified_header.replace(" ", "_")
+    return modified_header
 
 class XPSReadersReset(Resource):
     def put(self):
@@ -50,12 +67,12 @@ class XPSReaderGetAll(Resource):
         try:
             if xps_reader != None:
                 with XPSReader((os.path.join(DATA_FOLDER,'xps_files',filename))+'.xps', header_size=xps_reader.header_size, temp_folder_path=filename+'_temp_all') as xps:
-                    rows = list(xps.rows())
+                    rows = process_xps_data(xps.rows())
             else:
                 xps_reader = XPSReader(os.path.join(DATA_FOLDER, 'xps_files', filename) + '.xps', temp_folder_path=filename+'_temp')
                 XPS_READERS.append(xps_reader)
                 with XPSReader((os.path.join(DATA_FOLDER,'xps_files',filename))+'.xps', temp_folder_path=filename+'_temp_all') as xps:
-                    rows = list(xps.rows())
+                    rows = process_xps_data(xps.rows())
         except FileNotFoundError:
             return make_response('The requested file: ' + filename + '.xps does not exist',404,headers)
         except ValueError:
